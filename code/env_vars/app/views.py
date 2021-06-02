@@ -1,13 +1,7 @@
-import trend_app_protect.start
 import os
-import logging
-from flask import Flask, render_template, request, flash
+from flask import request, render_template, flash
+from app import app
 
-app = Flask(__name__)
-app.secret_key = 'SECRET'
-gunicorn_error_logger = logging.getLogger('gunicorn.error')
-app.logger.handlers.extend(gunicorn_error_logger.handlers)
-app.logger.setLevel(logging.DEBUG)
 ENABLE_DEBUGGING = os.environ.get('ENABLE_DEBUGGING')
 
 

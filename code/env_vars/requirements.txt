@@ -1,3 +1,4 @@
 flask
 trend-app-protect
 gunicorn
+boto3

@@ -2,9 +2,22 @@
 
 A simple Flask app with [Application Security](https://docs.app-security.trendmicro.com/) embedded. 
 
-## Start app
+## Choosing an app
 
-Start the app using the following command:
+There are two demos found in this repo. They're called `env_vars` and `secrets_manager`. The former receives its Application Security keys via environment vairables. The latter retrieves them from AWS Secrets Manager.
+
+Each of their setup instructions can be found below.
+
+### env_vars
+
+1. Build the Docker image:
+
+```
+cd code/env_vars
+docker build -t <username>/flask-app-sec .
+```
+
+2. Run it:
 
 ```
 docker run \
@@ -12,23 +25,36 @@ docker run \
 -d -p 5000:5000 \
 -e TREND_AP_KEY=<AP_KEY> \
 -e TREND_AP_SECRET=<AP_SECRET> \
-oznetnerd/flask-app-sec
+<username>/flask-app-sec
 ```
 
-### Debugging
+### secrets_manager
 
-You can add debug outputs by using the `ENABLE_DEBUGGING` environment variable, like so:
+1. Create a Secrets Manager entry named `TrendMicro/ApplicationSecurity`. Add two rows named `TREND_AP_KEY` and `TREND_AP_SECRET`. 
+
+2. Build the Docker image:
+
+```
+cd code/secrets_manager
+docker build -t <username>/flask-app-sec .
+```
+
+2. Run it:
 
 ```
 docker run \
 --name flask-app-sec \
 -d -p 5000:5000 \
--e TREND_AP_KEY=<AP_KEY> \
--e TREND_AP_SECRET=<AP_SECRET> \
--e ENABLE_DEBUGGING=True \
-oznetnerd/flask-app-sec
+-e AWS_ACCESS_KEY_ID=<KEY_ID> \
+-e AWS_SECRET_ACCESS_KEY=<ACCESS_KEY> \
+-e AWS_DEFAULT_REGION=ap-<REGION> \
+<username>/flask-app-sec
 ```
- 
+
+## Debugging
+
+You can add debug outputs by using the `-e ENABLE_DEBUGGING=True` switch.
+
 Below is an example of the debug output:
 
 ```
